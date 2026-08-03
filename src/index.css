@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+html{
+  scroll-behavior:smooth;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:"Inter",sans-serif;
+  overflow-x:hidden;
+}
+
+h1,h2,h3{
+  font-family:"Bebas Neue",sans-serif;
+  letter-spacing:2px;
+}
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#090909;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#b91c1c;
+  border-radius:999px;
+}
+
+::selection{
+  background:#dc2626;
+  color:white;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+img {
+  transition:
+    transform .8s cubic-bezier(.22,1,.36,1);
+}
+
+button {
+
+  transition: all .3s ease;
+}
+
+button:hover{
+
+  transform:translateY(-2px);
+
+}
+
+::selection{
+
+  background:#dc2626;
+
+  color:white;
+
+}
