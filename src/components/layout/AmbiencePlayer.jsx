@@ -3,7 +3,7 @@ import { FiVolume2, FiVolumeX } from "react-icons/fi";
 
 export default function AmbiencePlayer() {
   const audioRef = useRef(null);
-  const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -12,13 +12,39 @@ export default function AmbiencePlayer() {
 
     audio.volume = 0.12;
     audio.loop = true;
-    audio.preload = "auto";
 
-    // Try autoplay
-    audio.play().catch(() => {
-      // Browser blocked autoplay.
-      // The button below can start it.
+    const tryPlay = async () => {
+      try {
+        await audio.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    };
+
+    tryPlay();
+
+    const startAfterInteraction = async () => {
+      try {
+        await audio.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", startAfterInteraction, {
+      once: true,
     });
+
+    window.addEventListener("keydown", startAfterInteraction, {
+      once: true,
+    });
+
+    return () => {
+      window.removeEventListener("pointerdown", startAfterInteraction);
+      window.removeEventListener("keydown", startAfterInteraction);
+    };
   }, []);
 
   const toggleAudio = async () => {
@@ -26,16 +52,18 @@ export default function AmbiencePlayer() {
 
     if (!audio) return;
 
-    if (muted) {
-      try {
-        await audio.play();
-        setMuted(false);
-      } catch (error) {
-        console.error("Could not play gym.mp3:", error);
-      }
-    } else {
+    if (playing) {
       audio.pause();
-      setMuted(true);
+      setPlaying(false);
+      return;
+    }
+
+    try {
+      await audio.play();
+      setPlaying(true);
+    } catch (error) {
+      console.error("gym.mp3 could not play:", error);
+      setPlaying(false);
     }
   };
 
@@ -44,19 +72,35 @@ export default function AmbiencePlayer() {
       <audio
         ref={audioRef}
         src="/gym.mp3"
-        loop
         preload="auto"
+        loop
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
       />
 
       <button
         onClick={toggleAudio}
-        aria-label={muted ? "Turn ambience on" : "Turn ambience off"}
-        className="fixed bottom-8 right-8 z-[9999] rounded-full border border-white/10 bg-black/60 p-4 backdrop-blur-xl transition hover:scale-110 hover:border-red-500"
+        aria-label={playing ? "Turn ambience off" : "Turn ambience on"}
+        className="
+          fixed bottom-8 right-8 z-[9999]
+          rounded-full
+          border border-white/10
+          bg-black/60
+          p-4
+          text-white
+          backdrop-blur-xl
+          transition-all duration-300
+          hover:scale-110
+          hover:border-red-500
+          light:border-black/10
+          light:bg-white/80
+          light:text-gray-800
+        "
       >
-        {muted ? (
-          <FiVolumeX className="text-xl text-white" />
-        ) : (
+        {playing ? (
           <FiVolume2 className="text-xl text-red-500" />
+        ) : (
+          <FiVolumeX className="text-xl" />
         )}
       </button>
     </>
