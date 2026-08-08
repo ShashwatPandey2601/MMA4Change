@@ -6,15 +6,49 @@ export default function AmbiencePlayer() {
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
-    if (!audioRef.current) return;
+    const audio = audioRef.current;
 
-    audioRef.current.volume = 0.12;
-    audioRef.current.loop = true;
+    if (!audio) return;
 
-    if (!muted) {
-      audioRef.current.play().catch(() => {});
+    audio.volume = 0.12;
+    audio.loop = true;
+
+    const startAudio = () => {
+      if (!audio || muted) return;
+
+      audio.play().catch(() => {});
+    };
+
+    // Try immediately
+    startAudio();
+
+    // If Chrome blocks autoplay, start after the user's first interaction
+    const handleInteraction = () => {
+      startAudio();
+    };
+
+    window.addEventListener("click", handleInteraction, { once: true });
+    window.addEventListener("touchstart", handleInteraction, { once: true });
+    window.addEventListener("keydown", handleInteraction, { once: true });
+    window.addEventListener("scroll", handleInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("touchstart", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
+      window.removeEventListener("scroll", handleInteraction);
+    };
+  }, [muted]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (muted) {
+      audio.pause();
     } else {
-      audioRef.current.pause();
+      audio.play().catch(() => {});
     }
   }, [muted]);
 
@@ -27,7 +61,7 @@ export default function AmbiencePlayer() {
       />
 
       <button
-        onClick={() => setMuted(!muted)}
+        onClick={() => setMuted((previous) => !previous)}
         aria-label={muted ? "Turn ambience on" : "Turn ambience off"}
         className="fixed bottom-8 right-8 z-[9999] rounded-full border border-white/10 bg-black/60 p-4 backdrop-blur-xl transition hover:scale-110 hover:border-red-500"
       >
