@@ -35,7 +35,7 @@ export default function JoinMovement() {
 
   return (
     <Section id="join">
-      <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-gradient-to-b from-[#0d0d0d] via-[#090909] to-[#050505] px-8 py-24">
+      <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-gradient-to-b from-[#0d0d0d] to-[#050505] px-8 py-20 light-join-card">
 
         {/* Animated Background Glow */}
 

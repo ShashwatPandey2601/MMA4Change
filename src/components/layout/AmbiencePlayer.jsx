@@ -3,7 +3,7 @@ import { FiVolume2, FiVolumeX } from "react-icons/fi";
 
 export default function AmbiencePlayer() {
   const audioRef = useRef(null);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -20,18 +20,21 @@ export default function AmbiencePlayer() {
 
   return (
     <>
-      <audio ref={audioRef}>
-        <source src="/audio/gym.mp3" type="audio/mpeg" />
-      </audio>
+      <audio
+        ref={audioRef}
+        src="/gym.mp3"
+        preload="auto"
+      />
 
       <button
         onClick={() => setMuted(!muted)}
+        aria-label={muted ? "Turn ambience on" : "Turn ambience off"}
         className="fixed bottom-8 right-8 z-[9999] rounded-full border border-white/10 bg-black/60 p-4 backdrop-blur-xl transition hover:scale-110 hover:border-red-500"
       >
         {muted ? (
-          <FiVolumeX className="text-white text-xl" />
+          <FiVolumeX className="text-xl text-white" />
         ) : (
-          <FiVolume2 className="text-red-500 text-xl" />
+          <FiVolume2 className="text-xl text-red-500" />
         )}
       </button>
     </>

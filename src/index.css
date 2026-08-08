@@ -1,77 +1,235 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 @import "tailwindcss";
 
-html{
-  scroll-behavior:smooth;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  background:#050505;
-  color:white;
-  font-family:"Inter",sans-serif;
-  overflow-x:hidden;
-}
-
-h1,h2,h3{
-  font-family:"Bebas Neue",sans-serif;
-  letter-spacing:2px;
-}
-
-::-webkit-scrollbar{
-  width:8px;
-}
-
-::-webkit-scrollbar-track{
-  background:#090909;
-}
-
-::-webkit-scrollbar-thumb{
-  background:#b91c1c;
-  border-radius:999px;
-}
-
-::selection{
-  background:#dc2626;
-  color:white;
-}
+/* ================================
+   GLOBAL
+================================ */
 
 html {
   scroll-behavior: smooth;
 }
 
 * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: white;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 2px;
+}
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b91c1c;
+  border-radius: 999px;
+}
+
+/* ================================
+   SELECTION
+================================ */
+
+::selection {
+  background: #dc2626;
+  color: white;
+}
+
+/* ================================
+   SMOOTH INTERACTIONS
+================================ */
+
+body,
+section,
+nav,
+div,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+button {
   transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
 }
 
 img {
-  transition:
-    transform .8s cubic-bezier(.22,1,.36,1);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 button {
-
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
-button:hover{
-
-  transform:translateY(-2px);
-
+button:hover {
+  transform: translateY(-2px);
 }
 
-::selection{
+/* ================================
+   LIGHT THEME
+================================ */
 
-  background:#dc2626;
+html.light {
+  background: #f5f5f5;
+}
 
-  color:white;
+html.light body {
+  background: #f5f5f5;
+  color: #111111;
+}
 
+/* Main backgrounds */
+
+html.light .bg-black {
+  background-color: #f5f5f5 !important;
+}
+
+html.light .bg-\[\#050505\] {
+  background-color: #ffffff !important;
+}
+
+html.light .bg-\[\#0d0d0d\] {
+  background-color: #ffffff !important;
+}
+
+/* Text */
+
+html.light .text-white {
+  color: #111111 !important;
+}
+
+html.light .text-gray-300 {
+  color: #444444 !important;
+}
+
+html.light .text-gray-400 {
+  color: #666666 !important;
+}
+
+html.light .text-gray-500 {
+  color: #777777 !important;
+}
+
+/* Borders */
+
+html.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Glass cards */
+
+html.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Navbar */
+
+html.light nav {
+  background-color: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Light scrollbar */
+
+html.light ::-webkit-scrollbar-track {
+  background: #eeeeee;
+}
+
+/* Keep red branding */
+
+html.light .text-red-500 {
+  color: #dc2626 !important;
+}
+
+html.light .text-red-400 {
+  color: #ef4444 !important;
+}
+
+/* ================================
+   LIGHT THEME — RED BUTTONS
+================================ */
+
+html.light .bg-red-600 {
+  background-color: #dc2626 !important;
+}
+
+html.light .bg-red-700 {
+  background-color: #b91c1c !important;
+}
+
+/* =========================================
+   LIGHT MODE — HERO VIDEO
+========================================= */
+
+html.light #home video {
+  opacity: 0.18;
+  filter: grayscale(100%) brightness(1.35);
+}
+
+html.light #home::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* =========================================
+   LIGHT MODE — JOIN / CONTRIBUTE
+========================================= */
+
+html.light .light-join-card {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f3f3f3 100%
+  ) !important;
+
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+
+html.light .light-join-card .bg-white\/5 {
+  background: rgba(0, 0, 0, 0.035) !important;
+}
+
+html.light .light-join-card .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
 }
