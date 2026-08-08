@@ -5,7 +5,7 @@ import Loader from "./components/layout/Loader";
 import Cursor from "./components/layout/Cursor";
 import TrailerModal from "./components/layout/TrailerModal";
 import JoinMovement from "./components/sections/JoinMovement";
-import AmbiencePlayer from "./components/layout/AmbiencePlayer";
+
 
 import Hero from "./components/hero/Hero";
 import Activities from "./components/sections/Activities";
@@ -18,9 +18,7 @@ function App() {
   const [trailerOpen, setTrailerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
-      <Cursor />
-
+    <>
       <AnimatePresence mode="wait">
         {!loaded && (
           <Loader onFinish={() => setLoaded(true)} />
@@ -34,9 +32,13 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <Hero onOpenTrailer={() => setTrailerOpen(true)} />
+            <Hero
+              onOpenTrailer={() => setTrailerOpen(true)}
+            />
 
-            <Activities onOpenTrailer={() => setTrailerOpen(true)} />
+            <Activities
+              onOpenTrailer={() => setTrailerOpen(true)}
+            />
 
             <About />
 
@@ -51,10 +53,12 @@ function App() {
             isOpen={trailerOpen}
             onClose={() => setTrailerOpen(false)}
           />
+
+          {/* Background ambience */}
+          <AmbiencePlayer />
         </>
       )}
-      <AmbiencePlayer />
-    </div>
+    </>
   );
 }
 
