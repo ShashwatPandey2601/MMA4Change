@@ -2,10 +2,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Loader from "./components/layout/Loader";
-import Cursor from "./components/layout/Cursor";
 import TrailerModal from "./components/layout/TrailerModal";
 import JoinMovement from "./components/sections/JoinMovement";
-
 
 import Hero from "./components/hero/Hero";
 import Activities from "./components/sections/Activities";
@@ -32,9 +30,7 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <Hero
-              onOpenTrailer={() => setTrailerOpen(true)}
-            />
+            <Hero />
 
             <Activities
               onOpenTrailer={() => setTrailerOpen(true)}
@@ -53,9 +49,6 @@ function App() {
             isOpen={trailerOpen}
             onClose={() => setTrailerOpen(false)}
           />
-
-          {/* Background ambience */}
-          <AmbiencePlayer />
         </>
       )}
     </>
