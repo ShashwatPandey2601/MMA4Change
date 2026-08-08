@@ -12,56 +12,44 @@ export default function AmbiencePlayer() {
 
     audio.volume = 0.12;
     audio.loop = true;
+    audio.preload = "auto";
 
-    const startAudio = () => {
-      if (!audio || muted) return;
+    // Try autoplay
+    audio.play().catch(() => {
+      // Browser blocked autoplay.
+      // The button below can start it.
+    });
+  }, []);
 
-      audio.play().catch(() => {});
-    };
-
-    // Try immediately
-    startAudio();
-
-    // If Chrome blocks autoplay, start after the user's first interaction
-    const handleInteraction = () => {
-      startAudio();
-    };
-
-    window.addEventListener("click", handleInteraction, { once: true });
-    window.addEventListener("touchstart", handleInteraction, { once: true });
-    window.addEventListener("keydown", handleInteraction, { once: true });
-    window.addEventListener("scroll", handleInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener("click", handleInteraction);
-      window.removeEventListener("touchstart", handleInteraction);
-      window.removeEventListener("keydown", handleInteraction);
-      window.removeEventListener("scroll", handleInteraction);
-    };
-  }, [muted]);
-
-  useEffect(() => {
+  const toggleAudio = async () => {
     const audio = audioRef.current;
 
     if (!audio) return;
 
     if (muted) {
-      audio.pause();
+      try {
+        await audio.play();
+        setMuted(false);
+      } catch (error) {
+        console.error("Could not play gym.mp3:", error);
+      }
     } else {
-      audio.play().catch(() => {});
+      audio.pause();
+      setMuted(true);
     }
-  }, [muted]);
+  };
 
   return (
     <>
       <audio
         ref={audioRef}
         src="/gym.mp3"
+        loop
         preload="auto"
       />
 
       <button
-        onClick={() => setMuted((previous) => !previous)}
+        onClick={toggleAudio}
         aria-label={muted ? "Turn ambience on" : "Turn ambience off"}
         className="fixed bottom-8 right-8 z-[9999] rounded-full border border-white/10 bg-black/60 p-4 backdrop-blur-xl transition hover:scale-110 hover:border-red-500"
       >
