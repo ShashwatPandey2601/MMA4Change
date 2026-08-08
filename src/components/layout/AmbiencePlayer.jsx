@@ -14,14 +14,9 @@ export default function AmbiencePlayer() {
     audio.loop = true;
 
     // Try autoplay
-    audio
-      .play()
-      .then(() => {
-        setPlaying(true);
-      })
-      .catch(() => {
-        setPlaying(false);
-      });
+    audio.play().catch(() => {
+      setPlaying(false);
+    });
   }, []);
 
   const toggleAudio = async () => {
@@ -34,7 +29,7 @@ export default function AmbiencePlayer() {
         await audio.play();
         setPlaying(true);
       } catch (error) {
-        console.error("Audio failed:", error);
+        console.error("Could not play gym.mp3:", error);
         setPlaying(false);
       }
     } else {
@@ -44,15 +39,40 @@ export default function AmbiencePlayer() {
   };
 
   return (
-    <audio
-      ref={audioRef}
-      src="/gym.mp3"
-      preload="auto"
-      loop
-      onPlay={() => setPlaying(true)}
-      onPause={() => setPlaying(false)}
-    >
-      Your browser does not support audio.
-    </audio>
+    <>
+      <audio
+        ref={audioRef}
+        src="/gym.mp3"
+        preload="auto"
+        loop
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      />
+
+      <button
+        onClick={toggleAudio}
+        aria-label={playing ? "Turn ambience off" : "Turn ambience on"}
+        className="
+          fixed bottom-8 right-8 z-[9999]
+          rounded-full
+          border border-white/10
+          bg-black/60
+          p-4
+          text-white
+          backdrop-blur-xl
+          transition-all duration-300
+          hover:scale-110
+          hover:border-red-500
+          dark:bg-black/60
+          dark:text-white
+        "
+      >
+        {playing ? (
+          <FiVolume2 className="text-xl text-red-500" />
+        ) : (
+          <FiVolumeX className="text-xl text-white" />
+        )}
+      </button>
+    </>
   );
 }
